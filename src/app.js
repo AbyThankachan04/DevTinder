@@ -15,9 +15,18 @@ app.listen(7777,()=>{
 app.use("/test",(req, res)=>{
     res.send("test from test nodemon----------")
 })
-app.use("/",(req, res)=>{ // its like a wild card route
-    res.send("empty slash")
-})
-app.use("/hello",(req, res)=>{
-    res.send("hello-")
+// app.use("/",(req, res)=>{ // its like a wild card route
+//     res.send("empty slash")
+// })
+// app.use("/hello",(req, res)=>{
+//     res.send("hello-")
+// })
+
+app.get("/user",(req, res,next)=>{
+    next()
+    res.send({id:1, name:'killadi'})
+},(req,res,next)=>{
+next()
+},(req,res,next)=>{
+res.send("response 3")
 })
