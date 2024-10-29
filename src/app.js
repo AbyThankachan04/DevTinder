@@ -6,6 +6,9 @@ app.listen(7777,()=>{
     console.log("listening  to port 7777")
 })
 
+const {adminAuth, userAuth} = require("./middlewares/auth")
+app.use("/admin", adminAuth)
+
 /**
  * order of the routes is very important 
  * eg: if the "/" is placed before any of the routes then no other routes will trigerred
@@ -29,4 +32,11 @@ app.get("/user",(req, res,next)=>{
 next()
 },(req,res,next)=>{
 res.send("response 3")
+})
+
+app.get("/admin/login",(req, res,next)=>{
+    res.send("admin logged")
+})
+app.get("/user/login",userAuth,(req, res,next)=>{
+    res.send("user logged")
 })
