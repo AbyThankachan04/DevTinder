@@ -40,3 +40,31 @@ app.get("/admin/login",(req, res,next)=>{
 app.get("/user/login",userAuth,(req, res,next)=>{
     res.send("user logged")
 })
+
+app.get("/getData",(req, res,next)=>{
+    throw new Error("asdsadsads")
+})
+
+app.get("/getUser",(req, res,next)=>{
+    /**
+     *  try catch block can be used for specific errors.
+     */
+    try {
+        throw new Error("User fetching failed"); 
+    } catch (error) {
+        console.log("user error", error)
+        res.status(500).send(error.message)
+    }
+})
+
+/**
+ * wildcard route, if our application breaks , below route will handle it
+ * keep this route in the end , order matters
+ */
+app.use("/",userAuth,(err,req, res,next)=>{
+    if(err){
+        console.log("error", err);
+        res.status(500).send("Internal Server Error")
+        
+    }
+})
