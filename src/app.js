@@ -1,10 +1,37 @@
 const express = require("express")
-
+const mongoose = require("./config/database")
 const app = express()
+const userModel = require("./models/user")
 
-app.listen(7777,()=>{
-    console.log("listening  to port 7777")
+app.post("/signup", async (req,res)=>{
+    const userObj = new userModel({
+        firstName:"sachin",
+        lastName:"tendulkar",
+        password:"ron@123",
+        age:"90",
+        city:"portugal"
+    })
+    try{
+        await userObj.save()
+        res.send("user added successfully")
+    }catch (error){
+        res.status(400).send(error)
+    }
+    
 })
+
+mongoose.connectDB().then(()=>{
+    console.log("mongodb connection estabilshed")
+    app.listen(7777,()=>{
+            console.log("listening  to port 7777")
+    })
+}).catch(()=>{
+    console.log("error connection failed")
+})
+
+// app.listen(7777,()=>{
+//     console.log("listening  to port 7777")
+// })
 
 const {adminAuth, userAuth} = require("./middlewares/auth")
 app.use("/admin", adminAuth)
